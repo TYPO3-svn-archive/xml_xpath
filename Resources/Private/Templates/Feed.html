@@ -1,0 +1,12 @@
+
+<div class="rssFeed">
+<f:for each="{xml}" as="item">
+  
+  <div class="rssItem">
+    <h2>{item.title}</h2>
+    <p><f:format.raw>{item.description}</f:format.raw></p>
+    <p><f:link.external uri="{item.link}" target="_blank">Weiterlesen</f:link.external></p>
+  </div>
+  
+</f:for>
+</div>

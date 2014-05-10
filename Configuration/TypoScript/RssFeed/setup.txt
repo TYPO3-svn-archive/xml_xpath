@@ -1,0 +1,51 @@
+tt_content.tx_contentdesigner_rss < plugin.tx_contentdesigner
+tt_content.tx_contentdesigner_rss.settings {
+  title       = RSS Feed
+  description = Einbinden eines RSS Feeds
+  
+  icon      = ../../../../typo3conf/ext/xml_xpath/Resources/Public/Icons/rss.png
+  iconSmall = ../../../../typo3conf/ext/xml_xpath/Resources/Public/Icons/rssSmall.png
+  
+  cObject.sDEF.sheetTitle = Allgemein
+  cObject.sDEF.el {
+    url {
+      label = Feed URL
+      config.type = input
+    }
+  }
+  
+  previewObj = TEXT
+  previewObj.field = url
+  previewObj.wrap = |<br>
+  
+  renderObj {
+    20 = LOAD_REGISTER
+    20 {
+      url.field = url
+      uid.field = uid
+    }
+    
+    30 < plugin.tx_xmlxpath
+    30.settings {
+      templateFile = typo3conf/ext/xml_xpath/Resources/Private/Templates/Feed.html
+      
+      source      = URL
+      source.data = register:url
+      
+      cache {
+        enable     = 1
+        timeout    = 3600
+        
+        file.data = register:uid
+        file.wrap = feed_|_cache.txt
+      }
+      
+      xpath {
+        path  = /rss/channel/item[position() <= 3]
+        limit = 3
+      }
+    }
+    
+    40 = RESTORE_REGISTER
+  }
+}

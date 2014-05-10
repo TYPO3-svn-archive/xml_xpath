@@ -1,0 +1,11 @@
+
+<div class="rssFeed">
+<f:for each="{html}" as="element">
+  
+  <div class="rssItem">
+    <h2>{element.1}</h2>
+    <p><f:format.stripTags>{element.2}</f:format.stripTags></p>
+  </div>
+  
+</f:for>
+</div>

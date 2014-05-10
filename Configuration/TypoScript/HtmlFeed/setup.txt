@@ -1,0 +1,62 @@
+tt_content.tx_contentdesigner_html < plugin.tx_contentdesigner
+tt_content.tx_contentdesigner_html.settings {
+  title       = HTML Feed
+  description = Einbinden von teilen einer HTML Seite
+  
+  icon      = ../../../../typo3conf/ext/xml_xpath/Resources/Public/Icons/rss.png
+  iconSmall = ../../../../typo3conf/ext/xml_xpath/Resources/Public/Icons/rssSmall.png
+  
+  cObject.sDEF.sheetTitle = Allgemein
+  cObject.sDEF.el {
+    url {
+      label = URL
+      config.type = input
+    }
+	
+	expr {
+      label = Regular Expression
+      config.type = input
+    }
+  }
+  
+  previewObj = TEXT
+  previewObj.field = url
+  previewObj.wrap = |<br>
+  
+  renderObj {
+    20 = LOAD_REGISTER
+    20 {
+      url.field  = url
+      uid.field  = uid
+	  expr.field = expr
+    }
+    
+    30 < plugin.tx_xmlxpath
+	30.action = renderHtml
+	30.switchableControllerActions.Xpath.1 = renderHtml
+    30.settings {
+      templateFile = typo3conf/ext/xml_xpath/Resources/Private/Templates/Html.html
+      
+      source       = URL
+      source.data  = register:url
+	  
+      cache {
+        enable     = 1
+        timeout    = 3600
+        
+        file.data = register:uid
+        file.wrap = html_|_cache.txt
+      }
+      
+      expression {
+        #regexp      = /<div class="modul_nachricht_bild">.*<strong.*[^>]>.*Wendeburg<\/strong>.*<h2 .*[^>]><a .*[^>]>(.*)<\/a>.*<\/h2>.*<p>(.*)<\/p>.*<\/div>/msiU
+		regexp      = TEXT
+		regexp.data = register:expr
+				
+        limit       = 3
+      }
+    }
+    
+    40 = RESTORE_REGISTER
+  }
+}

@@ -1,0 +1,22 @@
+plugin.tx_xmlxpath = USER
+plugin.tx_xmlxpath {
+	userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+	pluginName = Pi1
+	extensionName = XmlXpath
+	controller = Xpath
+	vendorName = KERN23
+	action = renderXml
+	switchableControllerActions {
+		Xpath {
+			1 = renderXml
+		}
+	}
+	
+	features {
+		rewrittenPropertyMapper = 1
+	}
+	
+	settings {
+		
+	}
+}
