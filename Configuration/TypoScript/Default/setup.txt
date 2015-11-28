@@ -17,6 +17,7 @@ plugin.tx_xmlxpath {
 	}
 	
 	settings {
-		
+		changeNamespaceNotation = 0
+		ampReplace              = 1
 	}
 }

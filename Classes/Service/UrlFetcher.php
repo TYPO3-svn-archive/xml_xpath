@@ -18,8 +18,8 @@ class UrlFetcher {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return Data or send it to the browser
         curl_setopt($ch, CURLOPT_TIMEOUT, 5); // Request Timeout
         curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8'); // Encoding
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
         // Execute
         $output = curl_exec($ch);

@@ -22,7 +22,7 @@ class Xml extends \KERN23\XmlXpath\Mvc\Cache {
 		if ( !$source ) return false;
 		
 		// Convert to XML Object
-		$data = self::convertToXML($source);
+		$data = self::convertToXML($source, $settings['changeNamespaceNotation'], $settings['ampReplace']);
 		
 		// Enough data?
 		if ( $data->count() <= 0 ) return false;
@@ -51,16 +51,22 @@ class Xml extends \KERN23\XmlXpath\Mvc\Cache {
 	 * @param string $string
 	 * @return \SimpleXMLElement
 	 */
-	protected static function convertToXML(&$string) {
+	protected static function convertToXML(&$string, $changeNamespaceNotation = FALSE, $ampReplace = TRUE) {
 		# Boring Namespace Conversion
-		$string = str_replace("xmlns=","ns=", $string);
-		$string = str_replace("xmlns:","ns:", $string);
+		if ( $changeNamespaceNotation ) {
+			$string = str_replace("xmlns=","ns=", $string);
+			$string = str_replace("xmlns:","ns:", $string);
+		}
+		
+		# amp Replace
+		if ( $ampReplace ) 
+			$string = preg_replace("/&(?!#?[a-z0-9]+;)/", "&amp;", $string);
 		
 		# Create the XML Object
 		if ( strlen($string) <= 0 ) return false;
 		$xml = @simplexml_load_string($string);
 		if ( !$xml ) return false;
-		$xml = new \SimpleXMLElement(@$xml->asXML());
+		$xml = new \SimpleXMLElement(@$xml->asXML(), LIBXML_NOCDATA);
 		
 		# Register the Namespaces
 		$namespaces = @$xml->getNamespaces(true);

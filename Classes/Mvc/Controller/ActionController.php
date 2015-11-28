@@ -55,7 +55,7 @@ class ActionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 * @return \TYPO3\CMS\Fluid\View\StandaloneView
 	 */
 	protected function getStandaloneView($filename) {
-		$view = $this->objectManager->create('TYPO3\\CMS\Fluid\\View\\StandaloneView');
+		$view = $this->objectManager->get('TYPO3\\CMS\Fluid\\View\\StandaloneView');
 		$view->setFormat('html');
 		
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
